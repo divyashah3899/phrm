@@ -1,38 +1,55 @@
 package com.example.phrm;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 
-import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-
-    private FirebaseAuth firebaseAuth;
-    private Button logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        firebaseAuth = FirebaseAuth.getInstance();
 
-        logout = findViewById (R.id.btn_logout);
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Logout();
-            }
-        });
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
+
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
     }
-    private void Logout(){
-        firebaseAuth.signOut();
-        finish();
-        startActivity(new Intent(HomeActivity.this, MainActivity.class));
-    }
+
+    private  BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragmnet = null;
+
+                    switch (menuItem.getItemId()){
+
+                        case R.id.nav_home:
+                            selectedFragmnet = new HomeFragment();
+                            break;
+                        case R.id.nav_member:
+                            selectedFragmnet = new FavoritesFragment();
+                            break;
+                        case R.id.nav_menu:
+                            selectedFragmnet = new MenuFragment();
+                            break;
+                        case R.id.nav_notification:
+                            selectedFragmnet = new NotificationsFragment();
+                            break;
+
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragmnet).commit();
+                    return true;
+                }
+            };
 }

@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.PopUp">
+        <!-- Customize your theme here. -->
+       <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+
 </resources>
