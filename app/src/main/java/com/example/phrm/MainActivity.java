@@ -1,8 +1,5 @@
 package com.example.phrm;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setupUIviews();
 
+
+
+
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         progressDialog = new ProgressDialog(this);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validate(l_email.getText().toString(), l_password.getText().toString());
+
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
+        forgotpassword_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Forgotpassword.class));
+            }
+        });
+
+
     }
     private void validate(String l_email, String l_password) {
 
@@ -67,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 }else{
+                    progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
 
                 }
@@ -80,4 +92,6 @@ public class MainActivity extends AppCompatActivity {
         register = findViewById (R.id.register_link);
         forgotpassword_link = findViewById (R.id.forgotpassword_link);
     }
+
+
 }
